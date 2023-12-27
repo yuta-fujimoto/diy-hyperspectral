@@ -31,7 +31,7 @@ class Config:
 
     def transmission(self, wavelengths):
         if isinstance(wavelengths, (list, np.ndarray)):
-            tr = np.zeros_like(wavelengths)
+            tr = np.zeros_like(wavelengths, dtype=np.float32)
             for w in range(wavelengths.shape[0]):
                 gammas = [phase_shift(wavelengths[w], self.waveplates[t].thickness, self.waveplates[t].birefringence) for t in range(self.n_wp)]
                 tr[w] = transmission_mueller(gammas, np.deg2rad(self.alphas), np.deg2rad(self.theta))
