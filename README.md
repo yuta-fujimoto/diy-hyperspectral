@@ -4,27 +4,29 @@ This repo provides code and notebooks for convenience in reproducing the method 
 
 ## Setting up your environment
 
-Set up and activate the required python packages in a new conda environment by running:
+### install rawpy
+普通はpip install rawpyで良いはず。できなかった場合の話。
+https://pypi.org/project/rawpy/
 ```
-conda env create --file environment.yml
-conda activate hyperspectral
+git clone https://github.com/letmaik/rawpy
+cd rawpy
+pip install numpy cython
+pip install .
 ```
-You will also need MATLAB and the included MATLAB Engine API for Python in order to run the solver with constraints. See [Install MATLAB Engine API for Python](https://www.mathworks.com/help/matlab/matlab_external/install-the-matlab-engine-for-python.html) for instructions on how to install the Python API locally.
 
-If you wish to install the required python packages manually, this is the minimal list of required packages and tested versions:
+### install matlabengine
+はじめにmatlabのインストールをしておいてください。
+https://jp.mathworks.com/help/matlab/matlab_external/install-the-matlab-engine-for-python.html
 
-| Package      | Version |
-| ------------ | ------- |
-| numpy        | 1.19.2  |
-| notebook     | 6.4.3   |
-| ipywidgets   | 7.6.5   |
-| matplotlib   | 3.3.4   |
-| scipy        | 1.5.2   |
-| colormath    | 3.0.0   |
-| tqdm         | 4.63.0  |
-| scikit-learn | 0.24.2  |
-| plotly       | 5.6.0   |
-| rawpy        | 0.16.0  |
+for M1 mac
+```
+cd /Applications/MATLAB_R2023b.app/extern/engines/python
+pip install .
+```
+
+### install matlab optimization toolbox
+
+Matlabを起動しアドミンからインストール
 
 ## File guide
 

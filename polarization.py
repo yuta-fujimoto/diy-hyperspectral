@@ -142,4 +142,4 @@ def transmission_mueller(gamma, alpha, theta):
     s_o = az @ wp @ s_i
 
     # Intensity of transmitted light
-    return s_o[0][0]
+    return s_o[0]

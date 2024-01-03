@@ -308,7 +308,7 @@ def recover_sensor_illum(exp, spectra, c0, e0 = None, alpha = 1e-2, beta = 1e-2,
     c = np.copy(c0)
     e = np.zeros(exp.n_basis_e) if e0 is None else e0
 
-    resnorm = np.zeros(n_iter)
+    # resnorm = np.zeros(n_iter)
 
     for iter in tqdm(range(n_iter)):
         # np.save('data/sensor_illum_tests/sensor-' + str(iter), c)
@@ -325,13 +325,13 @@ def recover_sensor_illum(exp, spectra, c0, e0 = None, alpha = 1e-2, beta = 1e-2,
         A = np.vstack((A, Wa))
 
         A_mb = matlab.double(A.tolist())
-        e_mb = eng.lsqlin(A_mb, p_mb, E_mb, z_mb, nargout = 2)
-        resnorm[iter] = e_mb[1]
+        e_mb = eng.lsqlin(A_mb, p_mb, E_mb, z_mb)
+        # resnorm[iter] = e_mb[1]
         # e_tmp = np.array(e_mb[0]._data)
         # e = e + lr_illum * (e_tmp - e)
         e = np.array(e_mb[0]._data)
 
-        e_spectrum = (E @ e).flatten()
+        e_spectrum = (E @ e.transpose()).flatten()
 
         B = np.zeros((3, exp.n_pix, exp.n_basis_s))
         for k in range(3):
@@ -625,7 +625,7 @@ def reconstruct_blind(exp, a = None, n_iter = 30, alpha = 1e-8, beta = 1e-2, R0 
             T = np.zeros((exp.n_basis_r, exp.n_ftr * 3))
             for m in range(exp.n_ftr):
                 for k in range(3):
-                    T[:, m * 3 + k] = (A[m * 3 + k, :, :] @ e).squeeze()
+                    T[:, m * 3 + k] = (A[m * 3 + k, :, :] @ e.T).squeeze()
 
             # Add smoothness constraint (Eq. 6 of supplemental)
             T_tilde = np.vstack((T.transpose(), Wr))
@@ -644,9 +644,10 @@ def reconstruct_blind(exp, a = None, n_iter = 30, alpha = 1e-8, beta = 1e-2, R0 
 
         # Construct T matrix (Eq. 5 of supplemental)
         T = np.zeros((exp.n_basis_r, exp.n_ftr * 3))
+        print(T.shape, A.shape, e.shape)
         for m in range(exp.n_ftr):
             for k in range(3):
-                T[:, m * 3 + k] = (A[m * 3 + k, :, :] @ e).squeeze()
+                T[:, m * 3 + k] = (A[m * 3 + k, :, :] @ e.T).squeeze()
 
         # Add smoothness constraint (Eq. 6 of supplemental)
         T_tilde = np.vstack((T.transpose(), Wr))
