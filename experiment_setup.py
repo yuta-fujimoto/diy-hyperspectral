@@ -88,7 +88,6 @@ def white_balance(meas_wb, sensor_known = False, illum_known = False, gt_illum_f
 
         exp_wb = Experiment(wavelengths, np.array([0]), np.array([0]), meas_wb, B, E, np.array([S_R, S_G, S_B]))
         c, illuminant_scale = opt.recover_sensor(exp_wb, cc_spectra, gt_illum, c0 = np.column_stack((c0_r, c0_g, c0_b)), alpha = 0.1)
-        print(illuminant_scale)
         
         s_r = S_R.transpose() @ c[:,0]
         s_g = S_G.transpose() @ c[:,1]
